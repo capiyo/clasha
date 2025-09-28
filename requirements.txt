@@ -69,7 +69,6 @@ sympy==1.14.0
 tokenizers==0.22.1
 torch==2.8.0
 tqdm==4.67.1
-transformers @ file:///D:/AI/Tranformers/transformers
 trio==0.30.0
 trio-websocket==0.12.2
 typer-slim==0.19.2
