@@ -1,42 +1,25 @@
 #!/usr/bin/env bash
-# build.sh for Python application on Render.com
+# build.sh for Clasha Django project on Render.com
 
 set -o errexit  # Exit on any error
 
-echo "Starting build process..."
-
-# Install system dependencies if needed
-# echo "Installing system dependencies..."
-# apt-get update
-# apt-get install -y some-package
-
-# Upgrade pip to latest version
-echo "Upgrading pip..."
-pip install --upgrade pip
+echo "=== Starting Clasha Django Build Process ==="
 
 # Install Python dependencies
 echo "Installing Python dependencies..."
+pip install --upgrade pip
 pip install -r requirements.txt
 
-# If you need to install dependencies without requirements.txt
-# pip install flask gunicorn pandas numpy  # add your packages
+# Collect static files
+echo "Collecting static files..."
+python manage.py collectstatic --noinput --clear
 
-# Run any build steps for your specific application
-# echo "Running build steps..."
+# Apply database migrations
+echo "Applying database migrations..."
+python manage.py migrate
 
-# For Django projects, you might want:
-# echo "Running Django migrations..."
-# python manage.py migrate
+# Create superuser (optional - for initial setup, you might want to remove this in production)
+# echo "Creating superuser if needed..."
+# echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('admin', 'admin@example.com', 'password') if not User.objects.filter(username='admin').exists() else None" | python manage.py shell
 
-# For collecting static files (Django):
-# echo "Collecting static files..."
-# python manage.py collectstatic --noinput
-
-# For Flask projects with build steps:
-# echo "Running Flask build steps..."
-
-# Run tests if you have them
-# echo "Running tests..."
-# python -m pytest
-
-echo "Build completed successfully!"
+echo "=== Build completed successfully! ==="
